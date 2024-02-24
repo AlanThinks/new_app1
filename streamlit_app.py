@@ -15,7 +15,7 @@ model = load_model()
 
 # Setting up the sidebar
 st.sidebar.title("Options")
-st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the script of American Psycho.")
+st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the script of American Psycho. For example type the word Bateman")
 
 # Main application
 st.title('Word2Vec')
