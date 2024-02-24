@@ -14,10 +14,10 @@ model = load_model()
 
 # Setting up the sidebar
 st.sidebar.title("Options")
-st.sidebar.info("This NLP app uses a pre-trained model to predict sentiment. Enter some text and click 'Predict Sentiment'.")
+st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the script of American Psycho.")
 
 # Main application
-st.title('NLP Sentiment Analysis')
+st.title('Word2Vec')
 
 # User input in sidebar
 user_input = st.sidebar.text_area("Enter Text for Analysis", "")
