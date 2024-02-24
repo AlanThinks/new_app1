@@ -1,5 +1,6 @@
 import streamlit as st
 import pickle
+import sklearn
 
 
 # Define a function to load the model and apply the st.cache decorator
