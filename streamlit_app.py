@@ -4,7 +4,7 @@ import pickle
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
 def load_model():
-    with open('word2vec_model.pkl', 'rb') as file:
+    with open('nlp.pkl', 'rb') as file:
         model = pickle.load(file)
     return model
 
