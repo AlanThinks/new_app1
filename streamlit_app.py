@@ -2,7 +2,7 @@ import streamlit as st
 import pickle
 import sklearn
 from sklearn.decomposition import PCA
-
+import pandas as pd
 
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
