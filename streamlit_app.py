@@ -21,8 +21,18 @@ st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the 
 st.title('Word2Vec')
 
 # User input in sidebar
-user_input = st.sidebar.text_area("Enter Text for Analysis", "")
+#user_input = st.sidebar.text_area("Enter Text for Analysis", "")
 
 # Main area for display output
-if st.sidebar.button('Predict Sentiment'):
-    prediction = model.predict([user_input])
+user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
+
+# Main area for display output
+if st.sidebar.button('Get Word Vector'):
+    if user_word:
+        try:
+            word_vector = model.wv[user_word]  # Get the vector for the user input word
+            st.write(f"Vector for '{user_word}': {word_vector}")
+        except KeyError:
+            st.error(f"Word '{user_word}' not found in the vocabulary.")
+    else:
+        st.warning("Please enter a word.")
