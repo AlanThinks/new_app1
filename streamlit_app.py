@@ -3,6 +3,7 @@ import pickle
 import sklearn
 from sklearn.decomposition import PCA
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
