@@ -1,10 +1,9 @@
 import os
-os.system('pip install matplotlib numpy pandas')
+os.system('pip install matplotlib')
 import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from sklearn.decomposition import PCA
 
 # Define a function to load the model and apply the st.cache decorator
@@ -38,17 +37,26 @@ if st.sidebar.button('Get Word Vector'):
             words = [user_word]
             vectors = [model.wv[user_word]]
 
-            pca = PCA(n_components=2)
-            principal_components = pca.fit_transform(vectors)
-            principal_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'], index=words)
+            # Debugging statements to inspect vectors
+            st.write("Shape of vectors:", np.array(vectors).shape)
+            st.write("Example vector:", vectors[0])
 
-            # Plot
-            fig, ax = plt.subplots()
-            ax.scatter(principal_df['PC1'], principal_df['PC2'])
-            ax.set_xlabel('PC1')
-            ax.set_ylabel('PC2')
-            ax.annotate(user_word, (principal_df['PC1'][0], principal_df['PC2'][0]))  # Annotate the user input word
-            st.pyplot(fig)
+            # Check if the vectors have more than 1 dimension
+            if len(vectors[0]) > 1:
+                # Perform PCA
+                pca = PCA(n_components=2)
+                principal_components = pca.fit_transform(vectors)
+                principal_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'], index=words)
+
+                # Plot
+                fig, ax = plt.subplots()
+                ax.scatter(principal_df['PC1'], principal_df['PC2'])
+                ax.set_xlabel('PC1')
+                ax.set_ylabel('PC2')
+                ax.annotate(user_word, (principal_df['PC1'][0], principal_df['PC2'][0]))  # Annotate the user input word
+                st.pyplot(fig)
+            else:
+                st.error("Word vectors have only one dimension and cannot be plotted.")
         except KeyError:
             st.error(f"Word '{user_word}' not found in the vocabulary.")
     else:
