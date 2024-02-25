@@ -81,12 +81,15 @@ if st.sidebar.button('Get Word Vector'):
             principal_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'], index=words)
 
             # Plot
-            fig, ax = plt.subplots()
-            ax.scatter(principal_df['PC1'], principal_df['PC2'])
-            for word, (pc1, pc2) in principal_df.iterrows():
-                ax.annotate(word, (pc1, pc2))
-            ax.set_xlabel('PC1')
-            ax.set_ylabel('PC2')
+            with fig:
+                ax.scatter(principal_df['PC1'], principal_df['PC2'])
+                for word, (pc1, pc2) in principal_df.iterrows():
+                    ax.annotate(word, (pc1, pc2))
+                ax.set_xlabel('PC1')
+                ax.set_ylabel('PC2')
+
+# Display the plot in Streamlit
+st.pyplot(fig)
 
             st.pyplot(fig)
         except KeyError:
