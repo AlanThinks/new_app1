@@ -20,17 +20,16 @@ model = load_model()
 st.title('Word2Vec')
 
 # User input for word or sentence
-user_input = st.text_input("Enter a word or sentence to get its vector:", "")
-
-# Hidden submit button
-submit_button = st.button(label='Submit', key='submit_button', visible=False)
+with st.form(key='word_form'):
+    user_input = st.text_input("Enter a word or sentence to get its vector:", "")
+    submit_button = st.form_submit_button(label='Get Word Vector')
 
 # Main area for display output
-if submit_button or st.session_state.enter_pressed:
-    if user_input:
-        # Tokenize the input into words
-        words = user_input.split()
-        
+if submit_button:
+    # Tokenize the input into words
+    words = user_input.split()
+
+    if words:
         try:
             word_vectors = []
             for word in words:
@@ -63,9 +62,3 @@ if submit_button or st.session_state.enter_pressed:
             st.error("One or more words not found in the vocabulary.")
     else:
         st.warning("Please enter a word or sentence.")
-
-# Detect Enter key press
-if user_input:
-    st.session_state.enter_pressed = True
-else:
-    st.session_state.enter_pressed = False
