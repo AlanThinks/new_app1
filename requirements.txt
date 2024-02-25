@@ -4,4 +4,4 @@ pandas
 scikit-learn
 nltk
 gensim
-matplotlib
+matplotlib==3.4.3
