@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Install dependencies
-st.title("Installing dependencies...")
-st.write("Installing required dependencies. This may take a few moments...")
-st.code("pip install matplotlib")
-
 import matplotlib.pyplot as plt  # Importing matplotlib after installation
 
 # Define a function to load the model and apply the st.cache decorator
@@ -35,17 +31,11 @@ if st.sidebar.button('Get Word Vector'):
     if user_word:
         try:
             word_vector = model.wv[user_word]  # Get the vector for the user input word
-            
-            # Print the vector coordinates
             st.write(f"Vector for '{user_word}': {word_vector}")
-            st.write(f"Dimensional Coordinates: {word_vector[0]}, {word_vector[1]}")
-            
+
             # Get the next 5 similar words and their vectors
             similar_words = model.wv.most_similar(user_word, topn=5)
-            st.write("Next 5 words similar to", user_word, ":")
-            for word, vector in similar_words:
-                st.write(f"{word}: {vector}")
-                st.write(f"Dimensional Coordinates: {vector[0]}, {vector[1]}")
+            st.write("Next 5 words similar to", user_word, ":", [word for word, _ in similar_words])
             
             # Prepare data for scatterplot
             word_vectors = np.vstack([word_vector] + [model.wv[word] for word, _ in similar_words])
@@ -57,7 +47,7 @@ if st.sidebar.button('Get Word Vector'):
             fig, ax = plt.subplots()
             ax.scatter(x, y, label=user_word, color='blue')  # Scatter plot for user input word
             for i, word in enumerate(words):
-                ax.annotate(word, (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words with coordinates
+                ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words with coordinates
             ax.set_xlabel('Dimension 1')
             ax.set_ylabel('Dimension 2')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
