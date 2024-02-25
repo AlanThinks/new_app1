@@ -26,6 +26,8 @@ st.title('Word2Vec')
 # User input in sidebar
 user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
 
+
+
 # Main area for display output
 if st.sidebar.button('Get Word Vector'):
     if user_word:
@@ -49,6 +51,7 @@ if st.sidebar.button('Get Word Vector'):
                 principal_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'], index=words)
 
                 # Plot
+                fig = plt.figure(figsize=(8,8))
                 fig, ax = plt.subplots()
                 ax.scatter(principal_df['PC1'], principal_df['PC2'])
                 ax.set_xlabel('PC1')
