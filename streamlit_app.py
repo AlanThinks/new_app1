@@ -47,7 +47,6 @@ if st.sidebar.button('Get Word Vector'):
             for word, _ in similar_words:
                 similar_word_vector = model.wv[word]
                 ax.bar(range(len(similar_word_vector)), similar_word_vector, label=word, alpha=0.5)  # Plot similar word vector
-                ax.annotate(word, xy=(len(similar_word_vector) - 1, similar_word_vector[-1]), xytext=(len(similar_word_vector) + 1, similar_word_vector[-1]))  # Annotate similar word
             ax.set_xlabel('Dimension')
             ax.set_ylabel('Value')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
