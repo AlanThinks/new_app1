@@ -44,7 +44,7 @@ if user_input:
         fig, ax = plt.subplots()
         ax.scatter(x, y, label=user_input, color='blue')  # Scatter plot for user input word/sentence
         for i, word in enumerate(words):
-            ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
+            ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center', color='blue' if i == 0 else 'orange')  # Annotate words with coordinates
         ax.set_xlabel('Dimension 1')
         ax.set_ylabel('Dimension 2')
         ax.set_title(f"Word Vectors for '{user_input}'")
