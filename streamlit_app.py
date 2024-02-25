@@ -2,6 +2,12 @@ import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Install dependencies
+st.title("Installing dependencies...")
+st.write("Installing required dependencies. This may take a few moments...")
+st.code("pip install matplotlib")
+
 import matplotlib.pyplot as plt  # Importing matplotlib after installation
 
 # Define a function to load the model and apply the st.cache decorator
@@ -31,6 +37,10 @@ if st.sidebar.button('Get Word Vector'):
             word_vector = model.wv[user_word]  # Get the vector for the user input word
             st.write(f"Vector for '{user_word}': {word_vector}")
 
+            # Get the next 5 similar words
+            similar_words = model.wv.most_similar(user_word, topn=5)
+            st.write("Next 5 words similar to", user_word, ":", [word for word, _ in similar_words])
+            
             # Plotting the word vector
             fig, ax = plt.subplots()
             ax.bar(range(len(word_vector)), word_vector)
