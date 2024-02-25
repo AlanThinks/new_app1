@@ -2,12 +2,6 @@ import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
-
-# Install dependencies
-st.title("Installing dependencies...")
-st.write("Installing required dependencies. This may take a few moments...")
-st.code("pip install matplotlib")
-
 import matplotlib.pyplot as plt  # Importing matplotlib after installation
 
 # Define a function to load the model and apply the st.cache decorator
