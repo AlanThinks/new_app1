@@ -2,6 +2,7 @@ import os
 os.system('pip install matplotlib')
 import streamlit as st
 import pickle
+import matplotlib.pyplot as plt
 
 
 # Define a function to load the model and apply the st.cache decorator
