@@ -22,17 +22,9 @@ st.title('Word2Vec')
 # User input for word or sentence
 user_input = st.text_input("Enter a word or sentence to get its vector:", "")
 
-# Detect Enter key press
-if st.session_state.last_key != st.session_state.current_key:
-    st.session_state.enter_pressed = True
-else:
-    st.session_state.enter_pressed = False
-
-st.session_state.last_key = st.session_state.current_key
-
 # Main area for display output
-if st.button('Get Word Vector') or st.session_state.enter_pressed:
-    if user_input:
+if user_input:
+    if st.button('Get Word Vector') or st.session_state.enter_pressed:
         # Tokenize the input into words
         words = user_input.split()
         
@@ -66,5 +58,11 @@ if st.button('Get Word Vector') or st.session_state.enter_pressed:
             st.pyplot(fig)
         except KeyError:
             st.error("One or more words not found in the vocabulary.")
-    else:
-        st.warning("Please enter a word or sentence.")
+else:
+    st.warning("Please enter a word or sentence.")
+
+# Detect Enter key press
+if user_input:
+    st.session_state.enter_pressed = True
+else:
+    st.session_state.enter_pressed = False
