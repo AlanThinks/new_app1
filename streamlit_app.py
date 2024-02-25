@@ -1,8 +1,10 @@
 import os
-os.system('pip install matplotlib')
+os.system('pip install matplotlib numpy pandas')
 import streamlit as st
 import pickle
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 
 # Define a function to load the model and apply the st.cache decorator
