@@ -27,7 +27,7 @@ st.title('Word2Vec')
 user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
 
 # Main area for display output
-if st.sidebar.button('Get Word Vector'):
+if st.sidebar.button('Get Word Vector') or st.sidebar.enter_key_pressed:
     if user_word:
         try:
             word_vector = model.wv[user_word]  # Get the vector for the user input word
@@ -52,6 +52,12 @@ if st.sidebar.button('Get Word Vector'):
             ax.set_ylabel('Dimension 2')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
             ax.legend()
+
+            # Adjusting the limits of x and y axes to ensure all points stay inside the plot
+            margin = 0.1  # Add a small margin
+            ax.set_xlim(min(x) - margin, max(x) + margin)
+            ax.set_ylim(min(y) - margin, max(y) + margin)
+
             st.pyplot(fig)
         except KeyError:
             st.error(f"Word '{user_word}' not found in the vocabulary.")
