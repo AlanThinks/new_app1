@@ -37,16 +37,21 @@ if st.sidebar.button('Get Word Vector'):
             word_vector = model.wv[user_word]  # Get the vector for the user input word
             st.write(f"Vector for '{user_word}': {word_vector}")
 
-            # Get the next 5 similar words
+            # Get the next 5 similar words and their vectors
             similar_words = model.wv.most_similar(user_word, topn=5)
             st.write("Next 5 words similar to", user_word, ":", [word for word, _ in similar_words])
             
-            # Plotting the word vector
+            # Plotting the word vectors
             fig, ax = plt.subplots()
-            ax.bar(range(len(word_vector)), word_vector)
+            ax.bar(range(len(word_vector)), word_vector, label=user_word)  # Plot user input word vector
+            for word, _ in similar_words:
+                similar_word_vector = model.wv[word]
+                ax.bar(range(len(similar_word_vector)), similar_word_vector, label=word, alpha=0.5)  # Plot similar word vector
+                ax.annotate(word, xy=(len(similar_word_vector) - 1, similar_word_vector[-1]), xytext=(len(similar_word_vector) + 1, similar_word_vector[-1]))  # Annotate similar word
             ax.set_xlabel('Dimension')
             ax.set_ylabel('Value')
-            ax.set_title(f"Word Vector for '{user_word}'")
+            ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
+            ax.legend()
             st.pyplot(fig)
         except KeyError:
             st.error(f"Word '{user_word}' not found in the vocabulary.")
