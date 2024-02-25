@@ -44,9 +44,12 @@ if st.sidebar.button('Get Word Vector'):
             # Plotting the word vectors
             fig, ax = plt.subplots()
             ax.scatter(word_vector[0], word_vector[1], color='blue', label=user_word)  # Plot user input word vector
+            ax.annotate(f"{user_word}\n{x:.2f}, {y:.2f}", (word_vector[0], word_vector[1]), textcoords="offset points", xytext=(5,5), ha='center')
             for word, _ in similar_words:
                 similar_word_vector = model.wv[word]
-                ax.scatter(similar_word_vector[0], similar_word_vector[1], color='red', label=word)  # Plot similar word vectors
+                x, y = similar_word_vector[0], similar_word_vector[1]
+                ax.scatter(x, y, color='red', label=word)  # Plot similar word vectors
+                ax.annotate(f"{word}\n{x:.2f}, {y:.2f}", (x, y), textcoords="offset points", xytext=(5,5), ha='center')
             ax.set_xlabel('Dimension 1')
             ax.set_ylabel('Dimension 2')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
