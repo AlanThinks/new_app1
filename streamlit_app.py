@@ -41,14 +41,19 @@ if st.sidebar.button('Get Word Vector'):
             similar_words = model.wv.most_similar(user_word, topn=5)
             st.write("Next 5 words similar to", user_word, ":", [word for word, _ in similar_words])
             
+            # Prepare data for scatterplot
+            word_vectors = np.vstack([word_vector] + [model.wv[word] for word, _ in similar_words])
+            words = [user_word] + [word for word, _ in similar_words]
+            x = word_vectors[:, 0]
+            y = word_vectors[:, 1]
+
             # Plotting the word vectors
             fig, ax = plt.subplots()
-            ax.bar(range(len(word_vector)), word_vector, label=user_word)  # Plot user input word vector
-            for word, _ in similar_words:
-                similar_word_vector = model.wv[word]
-                ax.bar(range(len(similar_word_vector)), similar_word_vector, label=word, alpha=0.5)  # Plot similar word vector
-            ax.set_xlabel('Dimension')
-            ax.set_ylabel('Value')
+            ax.scatter(x, y, label=user_word, color='blue')  # Scatter plot for user input word
+            for i, word in enumerate(words):
+                ax.annotate(word, (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words
+            ax.set_xlabel('Dimension 1')
+            ax.set_ylabel('Dimension 2')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
             ax.legend()
             st.pyplot(fig)
