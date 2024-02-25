@@ -89,8 +89,6 @@ if st.sidebar.button('Get Word Vector'):
                 ax.set_ylabel('PC2')
 
 # Display the plot in Streamlit
-st.pyplot(fig)
-
             st.pyplot(fig)
         except KeyError:
             st.error(f"Word '{user_word}' not found in the vocabulary.")
