@@ -3,9 +3,6 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Install dependencies
-import matplotlib.pyplot as plt  # Importing matplotlib after installation
-
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
 def load_model():
@@ -20,45 +17,44 @@ model = load_model()
 st.title('Word2Vec')
 
 # User input for word or sentence
-with st.form(key='word_form'):
-    user_input = st.text_input("Enter a word or sentence to get its vector:", "")
-    submit_button = st.form_submit_button(label='Get Word Vector')
+user_input = st.text_input("Enter a word or sentence to get its vector:", "")
 
 # Main area for display output
-if submit_button:
-    # Tokenize the input into words
-    words = user_input.split()
+if user_input:
+    try:
+        if len(user_input.split()) == 1:  # Single word
+            word = user_input
+            similar_words = model.wv.most_similar(word, topn=5)
+            words = [word] + [similar_word[0] for similar_word in similar_words]
+        else:  # Sentence
+            words = user_input.split()
 
-    if words:
-        try:
-            word_vectors = []
-            for word in words:
-                word_vector = model.wv[word]  # Get the vector for each word in the input
-                word_vectors.append(word_vector)
-                st.write(f"Vector for '{word}': {word_vector}")
+        word_vectors = []
+        for word in words:
+            word_vector = model.wv[word]  # Get the vector for each word in the input
+            word_vectors.append(word_vector)
+            st.write(f"Vector for '{word}': {word_vector}")
 
-            # Prepare data for scatterplot
-            word_vectors = np.array(word_vectors)
-            x = word_vectors[:, 0]
-            y = word_vectors[:, 1]
+        # Prepare data for scatterplot
+        word_vectors = np.array(word_vectors)
+        x = word_vectors[:, 0]
+        y = word_vectors[:, 1]
 
-            # Plotting the word vectors
-            fig, ax = plt.subplots()
-            ax.scatter(x, y, label=user_input, color='blue')  # Scatter plot for user input word/sentence
-            for i, word in enumerate(words):
-                ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
-            ax.set_xlabel('Dimension 1')
-            ax.set_ylabel('Dimension 2')
-            ax.set_title(f"Word Vectors for '{user_input}'")
-            ax.legend()
+        # Plotting the word vectors
+        fig, ax = plt.subplots()
+        ax.scatter(x, y, label=user_input, color='blue')  # Scatter plot for user input word/sentence
+        for i, word in enumerate(words):
+            ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
+        ax.set_xlabel('Dimension 1')
+        ax.set_ylabel('Dimension 2')
+        ax.set_title(f"Word Vectors for '{user_input}'")
+        ax.legend()
 
-            # Adjusting the limits of x and y axes to ensure all points stay inside the plot
-            margin = 0.1  # Add a small margin
-            ax.set_xlim(min(x) - margin, max(x) + margin)
-            ax.set_ylim(min(y) - margin, max(y) + margin)
+        # Adjusting the limits of x and y axes to ensure all points stay inside the plot
+        margin = 0.1  # Add a small margin
+        ax.set_xlim(min(x) - margin, max(x) + margin)
+        ax.set_ylim(min(y) - margin, max(y) + margin)
 
-            st.pyplot(fig)
-        except KeyError:
-            st.error("One or more words not found in the vocabulary.")
-    else:
-        st.warning("Please enter a word or sentence.")
+        st.pyplot(fig)
+    except KeyError:
+        st.error("One or more words not found in the vocabulary.")
