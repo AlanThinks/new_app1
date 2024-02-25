@@ -16,12 +16,12 @@ def load_model():
 # Load the pickled model using the cached function
 model = load_model()
 
-# Setting up the sidebar
-st.sidebar.title("Options")
-st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the script of American Psycho. For example type the word Bateman")
-
 # Main application
 st.title('Word2Vec')
+
+# Setting up the Options sidebar
+st.sidebar.title("Options")
+st.sidebar.info("This NLP app uses a pre-trained model to check word2vec on the script of American Psycho. For example type the word Bateman")
 
 # User input in sidebar
 user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
