@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt  # Importing matplotlib after installation
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
 def load_model():
-    with open('model_cbow.pkl', 'rb') as file:
+    with open('model_skip.pkl', 'rb') as file:
         model = pickle.load(file)
     return model
 
