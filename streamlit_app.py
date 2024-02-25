@@ -25,7 +25,10 @@ if user_input:
         if len(user_input.split()) == 1:  # Single word
             word = user_input
             similar_words = model.wv.most_similar(word, topn=5)
-            words = [word] + [similar_word[0] for similar_word in similar_words]
+            words = [similar_word[0] for similar_word in similar_words]
+            st.write(f"Next 5 words similar to '{word}':")
+            for similar_word in similar_words:
+                st.write(f"'{similar_word[0]}': {model.wv[similar_word[0]]}")
         else:  # Sentence
             words = user_input.split()
 
@@ -44,7 +47,7 @@ if user_input:
         fig, ax = plt.subplots()
         ax.scatter(x, y, label=user_input, color='blue')  # Scatter plot for user input word/sentence
         for i, word in enumerate(words):
-            ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center', color='blue' if i == 0 else 'orange')  # Annotate words with coordinates
+            ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
         ax.set_xlabel('Dimension 1')
         ax.set_ylabel('Dimension 2')
         ax.set_title(f"Word Vectors for '{user_input}'")
