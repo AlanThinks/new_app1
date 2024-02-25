@@ -51,7 +51,7 @@ if st.sidebar.button('Get Word Vector'):
             fig, ax = plt.subplots()
             ax.scatter(x, y, label=user_word, color='blue')  # Scatter plot for user input word
             for i, word in enumerate(words):
-                ax.annotate(word, (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words
+                ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words with coordinates
             ax.set_xlabel('Dimension 1')
             ax.set_ylabel('Dimension 2')
             ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
