@@ -28,7 +28,7 @@ if user_input:
             words = [similar_word[0] for similar_word in similar_words]
             st.write(f"Next 5 words similar to '{word}':")
             for similar_word in similar_words:
-                st.write(f"'{similar_word[0]}': {model.wv[similar_word[0]]}", color='orange')
+                st.write(f"'{similar_word[0]}': {model.wv[similar_word[0]]}")
         else:  # Sentence
             words = user_input.split()
 
@@ -36,7 +36,7 @@ if user_input:
         for word in words:
             word_vector = model.wv[word]  # Get the vector for each word in the input
             word_vectors.append(word_vector)
-            st.write(f"Vector for '{word}': {word_vector}")
+            #st.write(f"Vector for '{word}': {word_vector}")
 
         # Prepare data for scatterplot
         word_vectors = np.array(word_vectors)
