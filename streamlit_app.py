@@ -38,12 +38,14 @@ if st.sidebar.button('Get Word Vector'):
             
             # Print the vector coordinates
             st.write(f"Vector for '{user_word}': {word_vector}")
+            st.write(f"Dimensional Coordinates: {word_vector[0]}, {word_vector[1]}")
             
             # Get the next 5 similar words and their vectors
             similar_words = model.wv.most_similar(user_word, topn=5)
             st.write("Next 5 words similar to", user_word, ":")
             for word, vector in similar_words:
                 st.write(f"{word}: {vector}")
+                st.write(f"Dimensional Coordinates: {vector[0]}, {vector[1]}")
             
             # Prepare data for scatterplot
             word_vectors = np.vstack([word_vector] + [model.wv[word] for word, _ in similar_words])
