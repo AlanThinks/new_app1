@@ -37,7 +37,8 @@ if st.sidebar.button('Get Word Vector'):
     else:
         st.warning("Please enter a word.")
 """
-
+import os
+os.system('pip install matplotlib')
 import streamlit as st
 import pickle
 import numpy as np
