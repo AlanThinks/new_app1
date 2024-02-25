@@ -36,7 +36,7 @@ if user_input:
         for word in words:
             word_vector = model.wv[word]  # Get the vector for each word in the input
             word_vectors.append(word_vector)
-            st.write(f"Vector for '{word}': {word_vector}")
+            #st.write(f"Vector for '{word}': {word_vector}")
 
         # Prepare data for scatterplot
         word_vectors = np.array(word_vectors)
@@ -50,7 +50,7 @@ if user_input:
             ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
         ax.set_xlabel('Dimension 1')
         ax.set_ylabel('Dimension 2')
-        #ax.set_title(f"Word Vectors for '{user_input}'")
+        ax.set_title(f"Word Vectors for '{user_input}'")
         ax.legend()
 
         # Adjusting the limits of x and y axes to ensure all points stay inside the plot
