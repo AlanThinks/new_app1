@@ -9,49 +9,45 @@ import matplotlib.pyplot as plt  # Importing matplotlib after installation
 # Define a function to load the model and apply the st.cache decorator
 @st.cache(allow_output_mutation=True)
 def load_model():
-    #with open('model_skip.pkl', 'rb') as file: #commnet this line out and uncomment the one below to alternate between SKIP and CBOW
-    with open('model_cbow.pkl', 'rb')as file:
+    with open('model_cbow.pkl', 'rb') as file:
         model = pickle.load(file)
     return model
 
 # Load the pickled model using the cached function
 model = load_model()
 
-# Setting up the sidebar
-st.sidebar.title("Options")
-st.sidebar.info("This NLP app uses a pre-trained model to check word2vec, in the repository you can alternate between the SKIPGRAM and CBOW on the script of American Psycho. For example type the word Bateman")
-
-# Main application
+# Main application title
 st.title('Word2Vec')
 
-# User input in sidebar
-user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
+# User input for word or sentence
+user_input = st.text_input("Enter a word or sentence to get its vector:", "")
 
 # Main area for display output
-if st.sidebar.button('Get Word Vector') or st.sidebar.enter_key_pressed:
-    if user_word:
+if st.button('Get Word Vector') or st.enter_key_pressed:
+    if user_input:
+        # Tokenize the input into words
+        words = user_input.split()
+        
         try:
-            word_vector = model.wv[user_word]  # Get the vector for the user input word
-            st.write(f"Vector for '{user_word}': {word_vector}")
+            word_vectors = []
+            for word in words:
+                word_vector = model.wv[word]  # Get the vector for each word in the input
+                word_vectors.append(word_vector)
+                st.write(f"Vector for '{word}': {word_vector}")
 
-            # Get the next 5 similar words and their vectors
-            similar_words = model.wv.most_similar(user_word, topn=5)
-            st.write("Next 5 words similar to", user_word, ":", [word for word, _ in similar_words])
-            
             # Prepare data for scatterplot
-            word_vectors = np.vstack([word_vector] + [model.wv[word] for word, _ in similar_words])
-            words = [user_word] + [word for word, _ in similar_words]
+            word_vectors = np.array(word_vectors)
             x = word_vectors[:, 0]
             y = word_vectors[:, 1]
 
             # Plotting the word vectors
             fig, ax = plt.subplots()
-            ax.scatter(x, y, label=user_word, color='blue')  # Scatter plot for user input word
+            ax.scatter(x, y, label=user_input, color='blue')  # Scatter plot for user input word/sentence
             for i, word in enumerate(words):
-                ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate similar words with coordinates
+                ax.annotate(f"{word}\n{x[i]:.2f}, {y[i]:.2f}", (x[i], y[i]), textcoords="offset points", xytext=(5,5), ha='center')  # Annotate words with coordinates
             ax.set_xlabel('Dimension 1')
             ax.set_ylabel('Dimension 2')
-            ax.set_title(f"Word Vectors for '{user_word}' and Similar Words")
+            ax.set_title(f"Word Vectors for '{user_input}'")
             ax.legend()
 
             # Adjusting the limits of x and y axes to ensure all points stay inside the plot
@@ -61,6 +57,6 @@ if st.sidebar.button('Get Word Vector') or st.sidebar.enter_key_pressed:
 
             st.pyplot(fig)
         except KeyError:
-            st.error(f"Word '{user_word}' not found in the vocabulary.")
+            st.error("One or more words not found in the vocabulary.")
     else:
-        st.warning("Please enter a word.")
+        st.warning("Please enter a word or sentence.")
