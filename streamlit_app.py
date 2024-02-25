@@ -27,7 +27,7 @@ st.title('Word2Vec')
 user_word = st.sidebar.text_input("Enter a word to get its vector:", "")
 
 # Main area for display output
-if st.sidebar.button('Get Word Vector'):
+if st.sidebar.button('Get Word Vector', key="get_word_vector"):
     if user_word:
         try:
             word_vector = model.wv[user_word]  # Get the vector for the user input word
@@ -57,3 +57,19 @@ if st.sidebar.button('Get Word Vector'):
             st.error(f"Word '{user_word}' not found in the vocabulary.")
     else:
         st.warning("Please enter a word.")
+
+# JavaScript to trigger the button click event when the "Enter" key is pressed
+js_code = """
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const textField = document.querySelector('.stTextInput > div > div > input')
+    const button = document.querySelector('.sidebar-content [data-testid="stButton"]')
+    textField.addEventListener('keydown', function(e) {
+        if (e.keyCode === 13) {
+            button.click();
+        }
+    });
+});
+</script>
+"""
+st.sidebar.markdown(js_code, unsafe_allow_html=True)
