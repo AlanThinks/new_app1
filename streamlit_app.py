@@ -17,7 +17,7 @@ model = load_model()
 st.title('Word2Vec')
 
 # User input for word or sentence
-user_input = st.text_input("Enter a word or sentence to get its vector:", "")
+user_input = st.text_input("Enter a word or sentence from the movie American Psycho to get its vector:", "")
 
 # Main area for display output
 if user_input:
